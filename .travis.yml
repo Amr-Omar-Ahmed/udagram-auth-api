@@ -15,7 +15,6 @@ before_script:
 
 script:
   - docker --version # print the version for logging
-  - apt-get install zip unzip
   - docker build -t udagram-auth-api .
   - docker tag udagram-auth-api amromar/udagram-auth-api:latest
 
