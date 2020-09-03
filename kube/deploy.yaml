@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: udagram-auth-api
+  name: udagram-auth-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      service: udagram-auth-api
+  template:
+    metadata:
+      labels:
+        service: udagram-auth-api
+    spec:
+      containers:
+        - image: adeboludeyi/udagram-auth-api
+          name: udagram-auth-api
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
+          env:
+            - name: "POSTGRES_HOST"
+              valueFrom:
+                configMapKeyRef:
+                  name: udagram-config-map
+                  key: POSTGRES_HOST
+            - name: "POSTGRES_DB"
+              valueFrom:
+                configMapKeyRef:
+                  name: udagram-config-map
+                  key: POSTGRES_DB
+            - name: "POSTGRES_USERNAME"
+              valueFrom:
+                secretKeyRef:
+                  name: udagram-secrets
+                  key: POSTGRES_USERNAME
+            - name: "POSTGRES_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: udagram-secrets
+                  key: POSTGRES_PASSWORD
+            - name: "JWT_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: udagram-secrets
+                  key: JWT_SECRET
+      restartPolicy: Always
