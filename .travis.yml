@@ -16,8 +16,8 @@ before_script:
 script:
   - docker --version # print the version for logging
   - docker build -t udagram-auth-api .
-  - docker tag udagram-auth-api "$DOCKER_USERNAME"/udagram-auth-api:latest
+  - docker tag udagram-auth-api amromar/udagram-auth-api:latest
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push "$DOCKER_USERNAME"/udagram-auth-api
+  - docker push amromar/udagram-auth-api
